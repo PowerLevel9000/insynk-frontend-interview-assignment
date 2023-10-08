@@ -11,7 +11,7 @@ Read and implement the requirements written in [Specification.md](/Specification
 - Please write an explanation of your code/decision making process in [Description.md](/Description.md). 
 
 ### 3. Submit
-After finishing the assignment please send us a link to your forked repo via email.
+After finishing the assignment please send us a link to your forked repo via email, along with the live link of your solution.
 
 ## Issues
 - If you have any questions please don't hesitate to reach out to us by creating a [Github Issue] in this repository
