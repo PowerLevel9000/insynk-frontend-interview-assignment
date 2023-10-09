@@ -1,3 +1,4 @@
+export const base = "http://localhost:3000";
 export interface userGet {
     id: number;
     name: string;
@@ -7,6 +8,13 @@ export interface userGet {
 
 export interface userPost {
     name: string;
+}
+
+export interface postCategories {
+    name: string;
+    is_main: boolean;
+    order: number;
+    user_id: number;
 }
 
 export interface categories {

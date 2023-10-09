@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { userPost } from "../../types";
+import { userPost, base } from "../../types";
 
-const base = "http://localhost:3000";
 const signup = createAsyncThunk("users/signup", async (user: userPost) => {
     const response = await fetch(`${base}/signup`, {
         method: "POST",
