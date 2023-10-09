@@ -53,7 +53,7 @@ const deleteUser = createAsyncThunk("users/deleteUser", async (user: any) => {
     return data;
 });
 
-const initialState = {
+const initialState:any = {
     user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")!) : {},
     loading: false,
     error: null,
@@ -70,29 +70,33 @@ const userSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
+
+        // signup builder cases
         builder.addCase(signup.pending, (state) => ({
             ...state,
             loading: true,
         }));
-        builder.addCase(signup.fulfilled, (state, action) => ({
+        builder.addCase(signup.fulfilled, (state, {payload}) => ({
             ...state,
             loading: false,
-            user: action.payload,
+            user: payload,
             massage: "signup success"
         }));
-        builder.addCase(signup.rejected, (state) => ({
+        builder.addCase(signup.rejected, (state, payload) => ({
             ...state,
             loading: false,
             massage: "something went wrong while signup"
         }));
+
+        // login builder cases
         builder.addCase(login.pending, (state) => ({
             ...state,
             loading: true,
         }));
-        builder.addCase(login.fulfilled, (state, action) => ({
+        builder.addCase(login.fulfilled, (state, {payload}) => ({
             ...state,
             loading: false,
-            user: action.payload,
+            user: payload,
             massage: "login success"
         }));
         builder.addCase(login.rejected, (state) => ({
@@ -100,20 +104,22 @@ const userSlice = createSlice({
             loading: false,
             massage: "something went wrong while login"
         }));
+
+        // update user builder cases
         builder.addCase(updateUser.pending, (state) => ({
             ...state,
             loading: true,
         }));
-        builder.addCase(updateUser.fulfilled, (state, action) => ({
+        builder.addCase(updateUser.fulfilled, (state, {payload}) => ({
             ...state,
             loading: false,
-            user: action.payload,
+            user: payload,
             massage: "update success"
         }));
-        builder.addCase(updateUser.rejected, (state) => ({
+        builder.addCase(updateUser.rejected, (state, payload) => ({
             ...state,
             loading: false,
-            massage: "something went wrong while update"
+            massage: payload
         }));
     }
 });

@@ -3,7 +3,7 @@ import { base, postCategories } from "../../types";
 
 // Asychronous Thunk to get categories
 const getCategories = createAsyncThunk("categories/getCategories", async () => {
-    const response = await fetch(`${base}/categories`, {
+    const response = await fetch(`${base}/users/1/categories`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const initialState:any = {
     categories: [],
     loading: false,
     error: null,
-    massage: "",
+    massage: null,
 };
 
 const categoriesSlice = createSlice({
@@ -74,11 +74,12 @@ const categoriesSlice = createSlice({
             ...state,
             categories: payload,
             loading: false,
+            massage: "success get categories"
         }));
-        builder.addCase(getCategories.rejected, (state) => ({
+        builder.addCase(getCategories.rejected, (state, {payload}) => ({
             ...state,
             loading: false,
-            massage: "get categories failed"
+            massage: payload,
         }));
 
         // builder to add category cases
@@ -90,11 +91,12 @@ const categoriesSlice = createSlice({
             ...state,
             categories: [...state.categories, payload],
             loading: false,
+            massage: "success add category"
         }));
-        builder.addCase(addCategory.rejected, (state) => ({
+        builder.addCase(addCategory.rejected, (state, payload) => ({
             ...state,
             loading: false,
-            massage: "add category failed",
+            massage: payload,
         }));
 
         // builder to update category cases
@@ -106,11 +108,12 @@ const categoriesSlice = createSlice({
             ...state,
             categories: state.categories.map((category: any) => category.id === payload.id ? payload : category),
             loading: false,
+            massage: "success update category"
         }));
-        builder.addCase(updateCategory.rejected, (state) => ({
+        builder.addCase(updateCategory.rejected, (state, payload) => ({
             ...state,
             loading: false,
-            massage: "update category failed",
+            massage: payload,
         }));
 
         // builder to delete category cases
@@ -122,11 +125,12 @@ const categoriesSlice = createSlice({
             ...state,
             categories: state.categories.filter((category: any) => category.id !== payload.id),
             loading: false,
+            massage: "success delete category"
         }));
-        builder.addCase(deleteCategory.rejected, (state) => ({
+        builder.addCase(deleteCategory.rejected, (state, payload) => ({
             ...state,
             loading: false,
-            massage: "delete category failed",
+            massage: payload,
         }));
     },
 });
