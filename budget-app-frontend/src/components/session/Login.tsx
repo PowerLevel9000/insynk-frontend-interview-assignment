@@ -4,20 +4,24 @@ import { login } from '../../redux/users/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const dispatch:any = useDispatch();
+  const dispatch: any = useDispatch();
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    if(!name) return setError('Name is required');
+    if(name.length < 3) return setError('Name must be at least 3 characters');
+    if(name.length > 20) return setError('Name must be less than 20 characters');
 
     try {
       await dispatch(login({ name }));
       if (localStorage.getItem('user')) {
-        navigate('/home');
+        navigate('/');
       }
-      else{
-        setError('Login failed. Please try again.');
+      else {
+        setError('user not found');
       }
     } catch (error) {
       console.error('Login failed:', error);
@@ -29,7 +33,10 @@ const Login = () => {
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Username</label>
-        <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+        <input type="text" name="name" value={name} onChange={(e) => {
+          setName(e.target.value)
+          setError('')
+        }} />
         {error ? <small>{error}</small> : null}
         <input type="submit" value="Login" />
       </form>

@@ -2,13 +2,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { userPost, base } from "../../types";
 
 const signup = createAsyncThunk("users/signup", async (user: userPost) => {
-    const response = await fetch(`${base}/signup`, {
+    const response = await fetch(`${base}/users`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
     });
+    if (response.status === 400 || response.status === 422) {
+        const data = await response.json();
+        throw new Error(data.error);
+    }
     const data = await response.json();
     localStorage.setItem("user", JSON.stringify(data));
     return data;
@@ -22,6 +26,11 @@ const login = createAsyncThunk("users/login", async (user: userPost) => {
         },
         body: JSON.stringify(user),
     });
+    if (response.status === 400 || response.status === 422) {
+        const data = await response.json();
+        throw new Error(data.error);
+    }
+
     const data = await response.json();
     localStorage.setItem("user", JSON.stringify(data));
     return data;
@@ -35,6 +44,11 @@ const updateUser = createAsyncThunk("users/updateUser", async (user: any) => {
         },
         body: JSON.stringify(user),
     });
+    if (response.status === 400 || response.status === 422) {
+        const data = await response.json();
+        throw new Error(data.error);
+    }
+
     const data = await response.json();
     localStorage.setItem("user", JSON.stringify(data));
     return data;
@@ -48,12 +62,18 @@ const deleteUser = createAsyncThunk("users/deleteUser", async (user: any) => {
         },
         body: JSON.stringify(user),
     });
+    
+    if (response.status === 400 || response.status === 422) {
+        const data = await response.json();
+        throw new Error(data.error);
+    }
+
     const data = await response.json();
-    localStorage.setItem("user", JSON.stringify(data));
+    localStorage.removeItem("user");
     return data;
 });
 
-const initialState:any = {
+const initialState: any = {
     user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")!) : {},
     loading: false,
     error: null,
@@ -76,7 +96,7 @@ const userSlice = createSlice({
             ...state,
             loading: true,
         }));
-        builder.addCase(signup.fulfilled, (state, {payload}) => ({
+        builder.addCase(signup.fulfilled, (state, { payload }) => ({
             ...state,
             loading: false,
             user: payload,
@@ -93,7 +113,7 @@ const userSlice = createSlice({
             ...state,
             loading: true,
         }));
-        builder.addCase(login.fulfilled, (state, {payload}) => ({
+        builder.addCase(login.fulfilled, (state, { payload }) => ({
             ...state,
             loading: false,
             user: payload,
@@ -110,7 +130,7 @@ const userSlice = createSlice({
             ...state,
             loading: true,
         }));
-        builder.addCase(updateUser.fulfilled, (state, {payload}) => ({
+        builder.addCase(updateUser.fulfilled, (state, { payload }) => ({
             ...state,
             loading: false,
             user: payload,
