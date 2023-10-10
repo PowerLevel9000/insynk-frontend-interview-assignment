@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { base } from "../../types";
+import { base, userId } from "../../types";
 
 // Asychronous Thunk to get expenses
 const getExpenses = createAsyncThunk("expenses/getExpenses", async () => {
-    const response = await fetch(`${base}/expenses`, {
+    const response = await fetch(`${base}/users/${userId}/expenses`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -15,7 +15,7 @@ const getExpenses = createAsyncThunk("expenses/getExpenses", async () => {
 
 // Asychronous Thunk to add expense
 const addExpense = createAsyncThunk("expenses/addExpense", async (expense: any) => {
-    const response = await fetch(`${base}/expenses`, {
+    const response = await fetch(`${base}/users/${userId}//expenses`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -28,7 +28,7 @@ const addExpense = createAsyncThunk("expenses/addExpense", async (expense: any) 
 
 //  Asychronous Thunk to update expense
 const updateExpense = createAsyncThunk("expenses/updateExpense", async (expense: any) => {
-    const response = await fetch(`${base}/expenses/${expense.id}`, {
+    const response = await fetch(`${base}/users/${userId}/expenses/${expense.id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -41,7 +41,7 @@ const updateExpense = createAsyncThunk("expenses/updateExpense", async (expense:
 
 // Asychronous Thunk to delete expense
 const deleteExpense = createAsyncThunk("expenses/deleteExpense", async (expense: any) => { 
-    const response = await fetch(`${base}/expenses/${expense.id}`, {
+    const response = await fetch(`${base}/users/${userId}/expenses/${expense.id}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",

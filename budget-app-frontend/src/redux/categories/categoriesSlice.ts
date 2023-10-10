@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { base, postCategories } from "../../types";
+import { base, postCategories, userId } from "../../types";
 
 // Asychronous Thunk to get categories
 const getCategories = createAsyncThunk("categories/getCategories", async () => {
-    const response = await fetch(`${base}/users/1/categories`, {
+    const response = await fetch(`${base}/users/${userId}/categories`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -15,7 +15,7 @@ const getCategories = createAsyncThunk("categories/getCategories", async () => {
 
 // Asychronous Thunk to add category
 const addCategory = createAsyncThunk("categories/addCategory", async (category: postCategories) => {
-    const response = await fetch(`${base}/categories`, {
+    const response = await fetch(`${base}/users/${userId}/categories`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -28,7 +28,7 @@ const addCategory = createAsyncThunk("categories/addCategory", async (category: 
 
 //  Asychronous Thunk to update category
 const updateCategory = createAsyncThunk("categories/updateCategory", async (category: any) => {
-    const response = await fetch(`${base}/categories/${category.id}`, {
+    const response = await fetch(`${base}/users/${userId}/categories/${category.id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -41,7 +41,7 @@ const updateCategory = createAsyncThunk("categories/updateCategory", async (cate
 
 // Asychronous Thunk to delete category
 const deleteCategory = createAsyncThunk("categories/deleteCategory", async (category: any) => {
-    const response = await fetch(`${base}/categories/${category.id}`, {
+    const response = await fetch(`${base}/users/${userId}/categories/${category.id}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",

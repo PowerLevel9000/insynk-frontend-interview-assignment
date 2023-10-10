@@ -1,4 +1,5 @@
 export const base = "http://localhost:3000";
+export const userId = JSON.parse(localStorage.getItem("user") || "{}").user.id;
 export interface userGet {
     id: number;
     name: string;
